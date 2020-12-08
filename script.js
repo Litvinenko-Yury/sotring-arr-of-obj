@@ -42,7 +42,6 @@ function sortByRevievs(arr) {
   const reg = /\d/g; //это паттерн, т.е шаблон; ищем ВСЕ ЧИСЛА
   //const reg2 = /\D/g; //это паттерн, т.е шаблон; ищем все НЕ-числа
 
-
   tempArr.forEach(item => {
     /* 2. - приводим значение свойства ratingRevievs из строки в число:*/
     //вариант-1
@@ -51,14 +50,12 @@ function sortByRevievs(arr) {
     //item.ratingRevievs = +item.ratingRevievs.replace(reg2, " "); // для ratingRevievs применить метод replace() - найти не-числа (это функциональное выражение), и заменить найденное на пустое пространство; далее преобразовать в число используя унарный плюс
   });
 
-
-  /* 3. - сортировка cloneArr*/
+  /* 3. - сортировка tempArr*/
   tempArr.sort((a, b) => a.ratingRevievs < b.ratingRevievs ? 1 : -1); // если да - возвращаем '1'; если нет - возвращаем '-1'
-  console.log(tempArr); // всё ок, сортируется как нужно
-
+  //console.log(tempArr); // всё ок, сортируется как нужно
 
   /* 4. - вывести результаты сортировки на страницу*/
-  // т.к. внутри cloneArr - объекты, необходимо вытаскивать определенные свойства из каждого из этих объектов.
+  // т.к. внутри tempArr - объекты, необходимо вытаскивать определенные свойства из каждого из этих объектов.
   // для этого нужно перебрать весь массив
   document.querySelector('.result').innerHTML = ""; // очистим содержимое .result от предыдущего содержимого.
   tempArr.forEach(item => {
@@ -69,19 +66,42 @@ function sortByRevievs(arr) {
 }
 
 function sortByPrice(arr) {
-  /***********/
   /* 1. - создаем независимую копию исходного объекта*/
-  const cloneArr = JSON.parse(JSON.stringify(arr)); // создание глубокой независимой копии
+  const tempArr = JSON.parse(JSON.stringify(arr)); // создание глубокой независимой копии
+  const reg = /\d/g; //это паттерн, т.е шаблон; ищем ВСЕ ЧИСЛА
+
+  /**2. запишем в свойство price цену, если цена лежит глубже*/
+  //значение цены м.б. либо в свойстве price - как строка
+  // либо в объекте price, и далее в свойстве newUan.
+  // поэтому, если цена в объекте, достаем её из свойства newUan, и записываем в просто свойство price
+  tempArr.forEach(item => {
+    if (typeof (item.price) === 'string') {
+      item.price = +item.price.match(reg).join(""); // match() вернет массив, поэтому нужен join(), который вернет строку; далее преобразовать в число используя унарный плюс
+    } else {
+      item.price = +item.price.newUan.match(reg).join(""); // если цена в объекте, достаем её из свойства newUan, и записываем в просто свойство price
+    }
+  });
+
+  /* 3. - сортировка tempArr */
+  tempArr.sort((a, b) => a.price < b.price ? 1 : -1); // если да - возвращаем '1'; если нет - возвращаем '-1'
+  //console.log(tempArr); // всё ок, сортируется как нужно
+
+  /* 4. - вывести результаты сортировки на страницу*/
+  // т.к. внутри tempArr - объекты, необходимо вытаскивать определенные свойства из каждого из этих объектов.
+  // для этого нужно перебрать весь массив
+  document.querySelector('.result').innerHTML = ""; // очистим содержимое .result от предыдущего содержимого.
+  tempArr.forEach(item => {
+    document.querySelector('.result').innerHTML += `
+      <h3>${item.name}</h3>
+      <div>Цена: ${item.price}</div>`;
+  });
 }
-
-
-
-
-
-
-
 
 document.querySelector('.feed').addEventListener('click', () => {
   sortByRevievs(basicArr);
+});
+
+document.querySelector('.price').addEventListener('click', () => {
+  sortByPrice(basicArr);
 });
 
