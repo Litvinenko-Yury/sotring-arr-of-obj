@@ -37,15 +37,13 @@ const basicArr = [
 
 
 function sortByRevievs(arr) {
-  /***********/
   /* 1. - создаем независимую копию исходного объекта*/
-  const cloneArr = JSON.parse(JSON.stringify(arr)); // создание глубокой независимой копии
+  const tempArr = JSON.parse(JSON.stringify(arr)); // создание глубокой независимой копии
   const reg = /\d/g; //это паттерн, т.е шаблон; ищем ВСЕ ЧИСЛА
   //const reg2 = /\D/g; //это паттерн, т.е шаблон; ищем все НЕ-числа
 
 
-  cloneArr.forEach(item => {
-    /***********/
+  tempArr.forEach(item => {
     /* 2. - приводим значение свойства ratingRevievs из строки в число:*/
     //вариант-1
     item.ratingRevievs = +item.ratingRevievs.match(reg).join(""); // match() вернет массив, поэтому нужен join(), который вернет строку; далее преобразовать в число используя унарный плюс
@@ -53,20 +51,37 @@ function sortByRevievs(arr) {
     //item.ratingRevievs = +item.ratingRevievs.replace(reg2, " "); // для ratingRevievs применить метод replace() - найти не-числа (это функциональное выражение), и заменить найденное на пустое пространство; далее преобразовать в число используя унарный плюс
   });
 
-  /***********/
+
   /* 3. - сортировка cloneArr*/
-  cloneArr.sort((a, b) => a.ratingRevievs < b.ratingRevievs ? 1 : -1); // если да - возвращаем '1'; если нет - возвращаем '-1' -- вопрос зачем эти '1' и '-1' ???
+  tempArr.sort((a, b) => a.ratingRevievs < b.ratingRevievs ? 1 : -1); // если да - возвращаем '1'; если нет - возвращаем '-1'
+  console.log(tempArr); // всё ок, сортируется как нужно
 
-  console.log(cloneArr);
 
-  /***********/
   /* 4. - вывести результаты сортировки на страницу*/
-  // т.к. внутри cloneArr - объекты, необходимо вытаскивать определенные свойства из каждого тз этих объектов.
+  // т.к. внутри cloneArr - объекты, необходимо вытаскивать определенные свойства из каждого из этих объектов.
   // для этого нужно перебрать весь массив
-  document.querySelector('.result');
-
-  /*время 12-17*/
-
+  document.querySelector('.result').innerHTML = ""; // очистим содержимое .result от предыдущего содержимого.
+  tempArr.forEach(item => {
+    document.querySelector('.result').innerHTML += `
+      <h3>${item.name}</h3>
+      <div>Отзывов: ${item.ratingRevievs}</div>`;
+  });
 }
 
-sortByRevievs(basicArr);
+function sortByPrice(arr) {
+  /***********/
+  /* 1. - создаем независимую копию исходного объекта*/
+  const cloneArr = JSON.parse(JSON.stringify(arr)); // создание глубокой независимой копии
+}
+
+
+
+
+
+
+
+
+document.querySelector('.feed').addEventListener('click', () => {
+  sortByRevievs(basicArr);
+});
+
