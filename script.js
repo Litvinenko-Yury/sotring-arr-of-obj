@@ -39,17 +39,18 @@ const basicArr = [
 function sortByRevievs(arr) {
   /***********/
   /* 1. - создаем независимую копию исходного объекта*/
-  const cloneArr = JSON.parse(JSON.stringify(arr));
-  const reg = /\D/g; //это паттерн, т.е шаблон; ищем все НЕ-числа
-  //const reg2 = /\d/g; //это паттерн, т.е шаблон; ищем ВСЕ ЧИСЛА
+  const cloneArr = JSON.parse(JSON.stringify(arr)); // создание глубокой независимой копии
+  const reg = /\d/g; //это паттерн, т.е шаблон; ищем ВСЕ ЧИСЛА
+  //const reg2 = /\D/g; //это паттерн, т.е шаблон; ищем все НЕ-числа
+
 
   cloneArr.forEach(item => {
     /***********/
     /* 2. - приводим значение свойства ratingRevievs из строки в число:*/
     //вариант-1
-    item.ratingRevievs = +item.ratingRevievs.replace(reg, " "); // для ratingRevievs применить метод replace() - найти не-числа (это функциональное выражение), и заменить найденное на пустое пространство; далее преобразовать в число используя унарный плюс
+    item.ratingRevievs = +item.ratingRevievs.match(reg).join(""); // match() вернет массив, поэтому нужен join(), который вернет строку; далее преобразовать в число используя унарный плюс
     //вариант-2
-    //item.ratingRevievs = +item.ratingRevievs.match(reg2).join(""); // match() вернет массив, поэтому нужен join(), который вернет строку; далее преобразовать в число используя унарный плюс
+    //item.ratingRevievs = +item.ratingRevievs.replace(reg2, " "); // для ratingRevievs применить метод replace() - найти не-числа (это функциональное выражение), и заменить найденное на пустое пространство; далее преобразовать в число используя унарный плюс
   });
 
   /***********/
@@ -62,7 +63,7 @@ function sortByRevievs(arr) {
   /* 4. - вывести результаты сортировки на страницу*/
   // т.к. внутри cloneArr - объекты, необходимо вытаскивать определенные свойства из каждого тз этих объектов.
   // для этого нужно перебрать весь массив
-  document.querySelector('.result')
+  document.querySelector('.result');
 
   /*время 12-17*/
 
