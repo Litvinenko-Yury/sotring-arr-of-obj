@@ -68,7 +68,7 @@ function sortByRevievs(arr) {
     document.querySelector('.result').innerHTML += `
       <h3>${item.name}</h3>
       <div>Отзывов: ${item.ratingRevievs}</div>
-      <div>Цена: ${item.price}</div>`;
+      <div>Цена: ${item.price} грн.</div>`;
   });
 }
 
@@ -100,7 +100,7 @@ function sortByPrice(arr) {
   tempArr.forEach(item => {
     document.querySelector('.result').innerHTML += `
       <h3>${item.name}</h3>
-      <div>Цена: ${item.price}</div>
+      <div>Цена: ${item.price} грн.</div>
       <div>Отзывов: ${item.ratingRevievs}</div>`;
   });
 }
